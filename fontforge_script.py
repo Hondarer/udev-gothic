@@ -329,10 +329,7 @@ def right_four(eng_font, style, merged_style):
         g = eng_font["four"]
         orig_width = g.width
         g.transform(psMat.skew(ITALIC_ANGLE * math.pi / 180))
-        #g.transform(psMat.translate(-94, 0)) # 左過ぎ
-        #g.transform(psMat.translate(0, 0)) # 右過ぎ
-        #g.transform(psMat.translate(-47, 0)) # もうちょい右にしたい
-        g.transform(psMat.translate(-36, 0)) # 左に移動
+        g.transform(psMat.translate(-36, 0)) # 少々左に移動
         g.width = orig_width
 
 def adjust_em(font):
