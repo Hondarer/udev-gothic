@@ -70,6 +70,7 @@ pip install -r requirements.txt
 - `--liga`: リガチャを加える
 - `--hidden-zenkaku-space`: 全角スペース可視化を無効化
 - `--dot-zero`: `0` をドットゼロにする
+- `--right-four`: `4` の水平線を右に突き出す
 
 ## ライセンス
 

@@ -31,6 +31,7 @@ WIDTH_35_STR = settings.get("DEFAULT", "WIDTH_35_STR")
 HIDDEN_ZENKAKU_SPACE_STR = settings.get("DEFAULT", "HIDDEN_ZENKAKU_SPACE_STR")
 JPDOC_STR = settings.get("DEFAULT", "JPDOC_STR")
 DOT_ZERO_STR = settings.get("DEFAULT", "DOT_ZERO_STR")
+RIGHT_FOUR_STR = settings.get("DEFAULT", "RIGHT_FOUR_STR")
 NERD_FONTS_STR = settings.get("DEFAULT", "NERD_FONTS_STR")
 LIGA_STR = settings.get("DEFAULT", "LIGA_STR")
 EM_ASCENT = int(settings.get("DEFAULT", "EM_ASCENT"))
@@ -102,7 +103,7 @@ def main():
 def usage():
     print(
         f"Usage: {sys.argv[0]} "
-        "[--hidden-zenkaku-space] [--35] [--jpdoc] [--nerd-font] [--liga] [--dot-zero]"
+        "[--hidden-zenkaku-space] [--35] [--jpdoc] [--nerd-font] [--liga] [--dot-zero] [--right-four]"
     )
 
 
@@ -131,6 +132,8 @@ def get_options():
             options["liga"] = True
         elif arg == "--dot-zero":
             options["dot-zero"] = True
+        elif arg == "--right-four":
+            options["right-four"] = True
         elif arg == "--debug":
             options["debug"] = True
         else:
@@ -147,6 +150,10 @@ def generate_font(jp_style, eng_style, merged_style):
     # 0 をスラッシュゼロにする
     if not options.get("dot-zero"):
         slash_zero(eng_font, eng_style)
+
+    # 4 の水平線を右に突き出す
+    if options.get("right-four"):
+        right_four(eng_font, jp_style, merged_style)
 
     # フォントのEMを揃える
     adjust_em(eng_font)
@@ -197,6 +204,7 @@ def generate_font(jp_style, eng_style, merged_style):
     variant = WIDTH_35_STR if options.get("35") else ""
     variant += HIDDEN_ZENKAKU_SPACE_STR if options.get("hidden-zenkaku-space") else ""
     variant += DOT_ZERO_STR if options.get("dot-zero") else ""
+    variant += RIGHT_FOUR_STR if options.get("right-four") else ""
     variant += JPDOC_STR if options.get("jpdoc") else ""
     variant += NERD_FONTS_STR if options.get("nerd-font") else ""
     variant += LIGA_STR if options.get("liga") else ""
@@ -304,6 +312,28 @@ def slash_zero(eng_font, style):
     eng_font.paste()
     eng_font.selection.none()
 
+def right_four(eng_font, style, merged_style):
+    """4 の水平線を右に突き出す"""
+    right_four_font = fontforge.open(
+        SOURCE_FONTS_DIR + "/four-" + style + ".sfd"
+    )
+    right_four_font.selection.select("four")
+    right_four_font.copy()
+    right_four_font.close()
+    eng_font.selection.select("four")
+    eng_font.clear()
+    eng_font.paste()
+    eng_font.selection.none()
+    if "Italic" in merged_style:
+        # 4 のグリフを斜体に変換
+        g = eng_font["four"]
+        orig_width = g.width
+        g.transform(psMat.skew(ITALIC_ANGLE * math.pi / 180))
+        #g.transform(psMat.translate(-94, 0)) # 左過ぎ
+        #g.transform(psMat.translate(0, 0)) # 右過ぎ
+        #g.transform(psMat.translate(-47, 0)) # もうちょい右にしたい
+        g.transform(psMat.translate(-36, 0)) # 左に移動
+        g.width = orig_width
 
 def adjust_em(font):
     """フォントのEMを揃える"""
