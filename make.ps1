@@ -26,7 +26,23 @@ $option_and_output_folder = @(
     @("--hidden-zenkaku-space --liga", "HSLG-"), # ビルド 1:2 全角スペース不可視 + リガチャ
     @("--hidden-zenkaku-space --35 --liga", "35HSLG-"), # ビルド 3:5 全角スペース不可視 + リガチャ
     @("--hidden-zenkaku-space --jpdoc", "HSJPDOC-"), # ビルド 1:2 全角スペース不可視 JPDOC版
-    @("--hidden-zenkaku-space --35 --jpdoc", "35HSJPDOC-") # ビルド 3:5 全角スペース不可視 JPDOC版
+    @("--hidden-zenkaku-space --35 --jpdoc", "35HSJPDOC-"), # ビルド 3:5 全角スペース不可視 JPDOC版
+    @("--right-four --nerd-font", "RFNF-"), # ビルド 1:2幅 + Nerd Fonts + 4のグリフ変更
+    @("--right-four --35 --nerd-font", "35RFNF-"), # ビルド 3:5幅 + Nerd Fonts + 4のグリフ変更
+    @("--right-four --nerd-font --liga", "RFNFLG-"), # ビルド 1:2幅 + Nerd Fonts + リガチャ + 4のグリフ変更
+    @("--right-four --35 --nerd-font --liga", "35RFNFLG-"), # ビルド 3:5幅 + Nerd Fonts + リガチャ + 4のグリフ変更
+    @("--right-four ", "RF-"), # ビルド 1:2幅 + 4のグリフ変更
+    @("--right-four --35", "35RF-"), # ビルド 3:5幅 + 4のグリフ変更
+    @("--right-four --liga", "RFLG-"), # ビルド 1:2幅 + リガチャ + 4のグリフ変更
+    @("--right-four --35 --liga", "35RFLG-"), # ビルド 3:5幅 + リガチャ + 4のグリフ変更
+    @("--right-four --jpdoc", "RFJPDOC-"), # ビルド 1:2幅 JPDOC版 + 4のグリフ変更
+    @("--right-four --35 --jpdoc", "35RFJPDOC-"), # ビルド 3:5幅 JPDOC版 + 4のグリフ変更
+    @("--hidden-zenkaku-space --right-four", "HSRF-"), # ビルド 1:2 全角スペース不可視 + 4のグリフ変更
+    @("--hidden-zenkaku-space --right-four --35", "35HSRF-"), # ビルド 3:5 全角スペース不可視 + 4のグリフ変更
+    @("--hidden-zenkaku-space --right-four --liga", "HSRFLG-"), # ビルド 1:2 全角スペース不可視 + リガチャ + 4のグリフ変更
+    @("--hidden-zenkaku-space --right-four --35 --liga", "35HSRFLG-"), # ビルド 3:5 全角スペース不可視 + リガチャ + 4のグリフ変更
+    @("--hidden-zenkaku-space --right-four --jpdoc", "HSRFJPDOC-"), # ビルド 1:2 全角スペース不可視 JPDOC版 + 4のグリフ変更
+    @("--hidden-zenkaku-space --right-four --35 --jpdoc", "35HSRFJPDOC-") # ビルド 3:5 全角スペース不可視 JPDOC版 + 4のグリフ変更
 )
 
 $option_and_output_folder | Foreach-Object -ThrottleLimit 4 -Parallel {
@@ -37,6 +53,9 @@ $option_and_output_folder | Foreach-Object -ThrottleLimit 4 -Parallel {
 }
 
 $move_file_src_dest = @(
+    @("UDEVGothic*HSRF*-*.ttf", "UDEVGothic_HSRF_$version"),
+    @("UDEVGothic*RFNF*-*.ttf", "UDEVGothic_RFNF_$version"),
+    @("UDEVGothic*RF*-*.ttf", "UDEVGothic_RF_$version"),
     @("UDEVGothic*HS*-*.ttf", "UDEVGothic_HS_$version"),
     @("UDEVGothic*NF*-*.ttf", "UDEVGothic_NF_$version"),
     @("UDEVGothic*-*.ttf", "UDEVGothic_$version")
